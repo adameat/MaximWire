@@ -6,7 +6,7 @@ This is very simple library to connect DS18B20 temperature sensor devices from A
 Getting started
 ---------------
 
-By default, if you using only one DS18B20 device, you don't need any external pull-up resisters.
+By default, if you using only one DS18B20 device, you don't need any external pull-up resistors.
 Just connect directly:
 
 +3.3V -> RED

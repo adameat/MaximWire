@@ -1,7 +1,7 @@
 
 # MaximWire
 
-This is very simple library to connect DS18B20 temperature sensor devices from Arduino NANO 33 BLE controllers.
+This is very simple library to connect DS18B20 temperature sensors and Arduino NANO 33 BLE controllers.
 
 Getting started
 ---------------

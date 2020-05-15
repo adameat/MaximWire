@@ -1,0 +1,17 @@
+{
+    "name": "MaximWire",
+    "keywords": "MaximWire DS18B20 OneWire 1-Wire",
+    "description": "MaximWire",
+    "authors":
+    {
+        "name": "xxx",
+        "url": "http://www.xenohome.com"
+    },
+    "version": "1.0",
+    "downloadUrl": "http://www.xenohome.com/maximwire.zip",
+    "export": {
+        "include": null
+    },
+    "frameworks": "arduino",
+    "platforms": ["nordicnrf52", "mbed"]
+}

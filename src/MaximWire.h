@@ -248,6 +248,10 @@ public:
         : Address(address)
     {}
 
+    Device(const String& address)
+	: Address(address)
+    {}
+
     bool IsParasitePowered(Bus& bus) {
         if (MatchRom(bus)) {
             bus.WriteByte(Bus::ECommands::ReadPowerSupply);

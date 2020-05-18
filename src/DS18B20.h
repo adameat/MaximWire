@@ -14,6 +14,11 @@ public:
     {
     }
 
+    DS18B20(const String& address)
+	: Device(address)
+    {
+    }
+
     DS18B20(const uint8_t (&address)[Address::ADDRESS_SIZE])
         : Device(address)
     {

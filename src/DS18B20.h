@@ -4,23 +4,21 @@ namespace MaximWire {
 
 class DS18B20 : public Device {
 public:
-    static constexpr uint8_t MODEL_CODE = 0x28;
-
     // public interface
     DS18B20() = default;
 
-    DS18B20(const Address& address)
-        : Device(address)
+    DS18B20(const Address& address, uint8_t modelCode = EmodelCode::CodeDS18B20)
+        : Device(address), precisionDenominator(getPrecisionDenominatorFromModelCode(modelCode))
     {
     }
 
-    DS18B20(const String& address)
-	: Device(address)
+    DS18B20(const String& address, uint8_t modelCode = EmodelCode::CodeDS18B20)
+	    : Device(address), precisionDenominator(getPrecisionDenominatorFromModelCode(modelCode))
     {
     }
 
-    DS18B20(const uint8_t (&address)[Address::ADDRESS_SIZE])
-        : Device(address)
+    DS18B20(const uint8_t (&address)[Address::ADDRESS_SIZE], uint8_t modelCode = EmodelCode::CodeDS18B20)
+        : Device(address), precisionDenominator(getPrecisionDenominatorFromModelCode(modelCode))
     {
     }
 
@@ -32,6 +30,11 @@ public:
 
     template <typename T>
     T GetTemperature(Bus& bus);
+    
+    enum EmodelCode : uint8_t {
+        CodeDS18B20 = 0x28,
+        CodeDS18S20 = 0x10,
+    };
 
     // implementation specific
     enum ECommands : uint8_t {
@@ -72,6 +75,9 @@ public:
     };
 
     static constexpr int16_t UNKNOWN_TEMPERATURE = 0x550;
+private:
+    uint8_t precisionDenominator;
+    uint8_t getPrecisionDenominatorFromModelCode(uint8_t modelCode);
 };
 
 template <>
@@ -112,7 +118,7 @@ float DS18B20::GetTemperature<float>(Bus& bus) {
     if (temperature == UNKNOWN_TEMPERATURE) {
         return NAN;
     } else {
-        return (float)temperature / 16;
+        return (float)temperature / precisionDenominator;
     }
 }
 
@@ -122,8 +128,19 @@ int DS18B20::GetTemperature<int>(Bus& bus) {
     if (temperature == UNKNOWN_TEMPERATURE) {
         return 0;
     } else {
-        return temperature / 16;
+        return temperature / precisionDenominator;
     }
 }
 
+uint8_t DS18B20::getPrecisionDenominatorFromModelCode(uint8_t modelCode){
+    uint8_t denominator = 16; // Default: DS18B20
+    switch(modelCode) {
+        case EmodelCode::CodeDS18B20:
+            break;
+        case EmodelCode::CodeDS18S20:
+            denominator = 2;
+            break;
+    }
+    return denominator;
+}
 }

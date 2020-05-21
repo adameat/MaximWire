@@ -4,7 +4,7 @@
 
 #include <MaximWire.h>
 
-#define PIN_BUS 9
+#define PIN_BUS 2
 
 MaximWire::Bus bus(PIN_BUS);
 MaximWire::DS18B20 device;
@@ -25,22 +25,26 @@ void loop() {
             } else {
                 Serial.print(" (INVALID)");
             }
-            if (address.GetModelCode() == MaximWire::DS18B20::MODEL_CODE) {
+            uint8_t modelCode = address.GetModelCode();
+            if (modelCode == MaximWire::DS18B20::EmodelCode::CodeDS18B20) {
                 Serial.print(" (DS18B20)");
-                MaximWire::DS18B20 device(address);
-                if (device.IsParasitePowered(bus)) {
-                    Serial.print(" (PARASITE POWER)");
-                }
-                float temp = device.GetTemperature<float>(bus);
-                Serial.print(" temp=");
-                Serial.print(temp);
-                Serial.println();
-                device.Update(bus);
-            } else {
-                Serial.println();
             }
-        } else {
-            Serial.println("NOTHING FOUND");
+            else if (modelCode == MaximWire::DS18B20::EmodelCode::CodeDS18S20) {
+                Serial.print(" (DS18S20)");
+            }
+            else {
+              Serial.println();
+              break;
+            }
+            MaximWire::DS18B20 device(address, modelCode);
+            if (device.IsParasitePowered(bus)) {
+                Serial.print(" (PARASITE POWER)");
+            }
+            float temp = device.GetTemperature<float>(bus);
+            Serial.print(" temp=");
+            Serial.print(temp);
+            Serial.println();
+            device.Update(bus);
         }
     } while (discovery.HaveMore());
     delay(1000);

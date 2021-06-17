@@ -21,7 +21,7 @@ void loop() {
             device.Reset();
         }
     } else {
-        if (bus.Discover().FindNextDevice(device) && device.GetModelCode() == MaximWire::DS18B20::MODEL_CODE) {
+        if (bus.Discover().FindNextDevice(device) && device.GetModelCode() == MaximWire::DS18B20::EmodelCode::CodeDS18B20) {
             Serial.print("FOUND ");
             Serial.println(device.ToString());
             device.Update(bus);

@@ -123,7 +123,6 @@ public:
     }
 
     void WriteByte(uint8_t byte) {
-        
         for (uint8_t mask = 1; mask; mask <<= 1) {
             if (byte & mask) {
                 HAL::WriteSlot1();
@@ -270,6 +269,9 @@ protected:
             }
             return true;
         }
+#ifdef MAXIMWIRE_SERIAL_DIAGNOSTICS
+        Serial.println("device not found");
+#endif
         return false;
     }
 };

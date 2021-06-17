@@ -36,10 +36,7 @@ using HAL_NRF52840_Base = HAL_NRF52840_INT_PULLUP;
 
 class HAL_NRF52840 : public HAL_NRF52840_Base {
 public:
-    HAL_NRF52840(uint8_t pin)
-        : HAL_NRF52840_Base(digitalPinToPinName(pin))
-    {
-    }
+    HAL_NRF52840(uint8_t pin);
 
     uint8_t ReadSlot() {
         __disable_irq();

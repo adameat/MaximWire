@@ -5,6 +5,11 @@ namespace MaximWire {
 
 #include "NRF52840.h"
 
+HAL_NRF52840::HAL_NRF52840(uint8_t pin)
+    : HAL_NRF52840_Base(digitalPinToPinName(pin))
+{
+}
+
 HAL_NRF52840_EXT_PULLUP::HAL_NRF52840_EXT_PULLUP(uint8_t pin)
     : HAL_Common(pin)
 {
